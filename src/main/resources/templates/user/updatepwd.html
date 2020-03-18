@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 修改密码</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!--页面欢迎-->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">PF+</h1>
+
+            </div>
+            <h3>修改密码</h3>
+            <!--<p>Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.-->
+                <!--&lt;!&ndash;Continually expanded and constantly improved Inspinia Admin Them (IN+)&ndash;&gt;-->
+            <!--</p>-->
+            <p>Login in. To see it in action.</p>
+            <form class="m-t" role="form" method="post" action="modifypwd">
+                <div class="form-group">
+                    <input type="password" id="oldpwd"  name="oldpwd" class="form-control" placeholder="原始密码" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="newpwd" name="newpwd" class="form-control" placeholder="新密码" required="">
+                </div>
+                <button type="button" onclick="modiectPwd()" class="btn btn-primary block full-width m-b">修改</button>
+               <small id="prompt" style="color:red;"></small>
+                <!--<p class="text-muted text-center"><small>Do not have an account?</small></p>-->
+                <!--<a class="btn btn-sm btn-white btn-block" href="/initindex">返回</a>-->
+            </form>
+            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+
+
+        });
+        function modiectPwd() {
+            var newpwd=$("#newpwd").val();
+            var oldpwd=$("#oldpwd").val();
+            $.post("modifypwd",{newpwd:newpwd,oldpwd:oldpwd},function (d) {
+                if(d==0){
+                    // setTimeout(function() {
+                    //     toastr.options = {
+                    //         closeButton: true,
+                    //         progressBar: true,
+                    //         showMethod: 'slideDown',
+                    //         timeOut: 1000
+                    //     };
+                    //     toastr.success('密码修改成功');
+                    //
+                    // }, 0);
+                    window.location="/";
+                }
+                if(d==2){
+                    $("#prompt").html("原始密码错误")
+                }
+                if(d==1){
+                    $("#prompt").html("修改失败")
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

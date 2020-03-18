@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 个人注册</title>
+    <script type="text/javascript" src="js/vue.min.js" ></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery-1.8.3.min.js"></script>
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+                <h1 class="logo-name">PF+</h1>
+            </div>
+            <h3>Powerful+</h3>
+            <p id="prompt">注册一个新账号</p>
+            <form class="m-t" role="form" id="frm1">
+                <span style="font-size: 18px;float: left;margin-left: -55px;margin-top: 5px;">账号：</span>
+                <div class="form-group">
+               <input type="text" class="form-control" name="number" id="username" placeholder="字母、数字、下划线组成，7-16位。" >
+                </div>
+                <span style="font-size: 18px;float: left;margin-left: -55px;margin-top: 5px;">密码：</span>
+                <div class="form-group">
+                   <input type="password" class="form-control" name="userpwd" id="userpwd" placeholder="由6-21个字母和数字组成" >
+                </div>
+                <span style="font-size: 18px;float: left;margin-left: -55px;margin-top: 5px;">邮箱：</span>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="邮箱" >
+                    <span id="emailprompt" style="margin-left: -155px;"></span>
+                </div>
+                <div class="form-group" id="id1" style="display: none;">
+                    <input type="text" placeholder="邮箱验证码"
+                            style="width: 90px;height: 33px;border:1px;border-radius:1px;padding-left:10px;margin-right: 6px" id="yzEmail">
+                <button type="button" class="btn btn-w-m btn-primary" style="width: 200px;" id="send">发送验证码</button>
+                </div>
+                <input type="button" class="btn btn-primary block full-width m-b" id="refister" value="注册">
+            </form>
+            <div class="form-group">
+                <div class="checkbox i-checks"><label> <input type="checkbox" id="terms"  checked ='checked'><i></i> 同意条款和政策 </label></div>
+            </div>
+            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+        var InterValObj; //timer变量，控制时间
+        var count = 60; //间隔函数，1秒执行
+        var curCount;//当前剩余秒数
+        $("#send").click(function () {
+            curCount = count;
+            var email = $("#email").val();
+            var number = $("#number").val();
+            //发送按钮点击后，背景颜色变为灰色
+            $("#send").css("background-color","darkgrey")
+            //禁用发送按钮
+            $("#send").attr("disabled",true);
+            //将按钮默认值改为倒计时数字
+            $("#send").html(curCount);
+            InterValObj = window.setInterval(SetRemainTime, 1000);//启动计时器，1秒执行一次
+            $.post("send_Email",{email:email,number:number},function (d) {
+                if(d==0){
+                    $("#prompt").html("验证码已发送，请注意查收")
+                    $("#prompt").css("color","green")
+                }
+                if(d==1){
+                    $("#prompt").css("color","red");
+                    $("#prompt").html("验证码发送失败，请检查邮箱格式是否正确")
+                    return false;
+                }
+                if(d==2){
+                    $("#prompt").css("color","red");
+                    $("#prompt").html("没有该用户")
+                    return false;
+                }
+
+            })
+        })
+
+        //计时器
+        function SetRemainTime(){
+            if (curCount == 0) {
+                window.clearInterval(InterValObj);//停止计时器
+                $("#send").removeAttr("disabled");//启用按钮
+                $("#send").html("重新发送验证码");
+                $("#send").css("background-color","#41cac0")
+            }
+            else {
+                curCount--;
+                $("#send").html(curCount);
+            }
+        }
+        $("#username").blur(function () {
+            var name=$("#username").val();
+            if($("#username").val()==""){
+                $("#prompt").css("color","red");
+                $("#username").css("border","1px solid red");
+                $("#prompt").html("请输入用户名")
+                return false;
+            }else{
+                $("#username").css("border","none");
+                $("#prompt").html("")
+                $.ajax({
+                    type : "POST",
+                    url: "nameyz",
+                    async : false,
+                    data:{number:name},
+                    success : function(d) {
+                        if(d==1){
+                            $("#prompt").css("color","red");
+                            $("#prompt").html("该用户已被注册，请重新注册")
+                            $("#username").css("border","1px solid red");
+                            return false;
+                        }
+                    }
+                });
+
+            }
+
+            var Account= /^[a-zA-Z0-9_-]{7,16}$/;
+            if(Account.test(name)){
+                $("#username").css("border","none");
+                return true;
+            }else{
+                $("#prompt").css("color","red");
+                $("#username").css("border","1px solid red");
+                $("#prompt").html("用户名格式错误")
+                return false;
+            }
+        })
+
+        $("#userpwd").blur(function () {
+            var pwd=$("#userpwd").val();
+            if($("#userpwd").val()=="") {
+                $("#userpwd").css("border","1px solid red");
+                $("#prompt").css("color","red");
+                $("#").html("请输入密码")
+                return false;
+            }else{
+                $("#userpwd").css("border","none");
+            }
+            regExp=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/;
+            if(regExp.test(pwd)){
+                $("#userpwd").css("border","none")
+                $("#prompt").css("border","none");
+                return true;
+            }else{
+                $("#prompt").css("color","red");
+                $("#username").css("border","1px solid red");
+                $("#prompt").html("密码格式有误，请重新输入")
+                return false;
+            }
+        })
+        $("#email").blur(function () {
+            var email=$("#email").val();
+            if($("#email").val()==""){
+                $("#prompt").css("color","red");
+                $("#email").css("border","1px solid red");
+                $("#prompt").html("请输入邮箱")
+                $("#id1").css("display","none");
+                return false;
+            }else{
+                var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+                if(reg.test(email)){
+                    $("#email").css("border","none");
+                }else{
+                    $("#prompt").css("color","red");
+                    $("#email").css("border","1px solid red");
+                    $("#prompt").html("邮箱格式不正确")
+                    $("#email").css("border","none");
+                    return false;
+                }
+
+            }
+        })
+        $("#email").focus(function () {
+            $("#id1").css("display","block");
+        })
+
+       $("#refister").click(function () {
+           var yzEmail=$("#yzEmail").val();
+           var name=$("#username").val();
+           var pwd=$("#userpwd").val();
+           var email=$("#email").val();
+
+           if($("#yzEmail").val()==""){
+               $("#prompt").css("color","red");
+               $("#yzEmail").css("border","1px solid red");
+               $("#prompt").html("请输入验证码")
+               return false;
+           }
+
+           $.ajax({
+               type : "POST",
+               url: "rifister",
+               async : false,
+               data:{number:name,email:email,password:pwd,yzEmail:yzEmail},
+               success : function(d) {
+                   if(d==1){
+                       $("#prompt").css("color","green");
+                       $("#prompt").html("注册成功")
+                       location.href="/";
+                   }
+                   if(d==0){
+                       $("#prompt").css("color","red");
+                       $("#prompt").html("注册失败")
+                   }
+                   if(d==2){
+                      $("#prompt").css("color","red");
+                      $("#prompt").html("该用户名已被注册，请重新输入")
+                   }
+                   if(d==3){
+                      $("#prompt").css("color","red");
+                       $("#prompt").html("验证码有误，请重新输入")
+                   }
+               },
+               error : function() {
+                   console.log("请求失败，请重试！");
+               }
+           });
+       })
+
+
+
+
+    </script>
+</body>
+
+</html>

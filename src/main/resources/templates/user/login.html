@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful-欢迎登陆</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery-1.8.3.min.js"></script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="loginColumns animated fadeInDown">
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="font-bold">欢迎使用Powerful账单管理系统</h2>
+                账单管理是企业管理中的一个重要组成部分，但平常的账单管理解决固定资产价值高，使用周期长、使用地点分散、管理难度大。
+                <p>
+                    Powerful账单管理系统可以加强资产管理，
+                    提高内部管理水平，为企业管理者提供更科学的决策依据，解决资产管理中经常出现的实物与账务账目不符的情况，减少管理中对固定资产管理存在的盲区
+
+                </p>
+
+                <p>
+                    精心为你设计的页面与功能，使办公更轻松！。
+                </p>
+
+                <p>
+                    强大的功能，只为您满足所有的需求！
+                </p>
+
+                <p>
+                    <small>Powerful，为你的企业保驾护航！</small>
+                </p>
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="ibox-content">
+                    <span id="prompt" style="color: red;"></span>
+                    <form class="m-t" role="form" th:action="@{/login}">
+                        <!--<label th:text="#{login.username}" ></label>-->
+                        <div class="form-group">
+                            <input type="text"  class="form-control" id="username" placeholder="用户名">
+                        </div>
+                        <!--<label th:text="#{login.password}" ></label>-->
+                        <div class="form-group">
+                            <input type="password"  class="form-control" id="userpwd" placeholder="密码" >
+                        </div>
+                        <label th:value="#{login.submit}"></label>
+                        <input type="button"   class="btn btn-primary block full-width m-b" id="SubmitInformation" value="登录" />
+
+                        <a href="forgetpwd">
+                            <small>忘记密码?</small>
+                        </a>
+
+                        <p class="text-muted text-center">
+                            <small>还没有账号？</small>
+                        </p>
+                        <a class="btn btn-sm btn-white btn-block" href="register.html" target="view_window">立即注册</a>
+                        <!--<a  href="#" th:href="@{/index(l='zh_CN')}">中文</a>-->
+                        <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                        <!--<a  href="#" th:href="@{/index(l='en_US')}">English</a>-->
+                    </form>
+                    <p class="m-t">
+                        <!--<small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>-->
+                    </p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+            <div class="col-md-6">
+                版权所属
+            </div>
+            <div class="col-md-6 text-right">
+               <small>©Strelitzia 2019-2020</small>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    $("#SubmitInformation").click(function () {
+        var name=$("#username").val();
+        var pwd=$("#userpwd").val();
+
+        if($("#username").val()==""){
+            $("#prompt").html("请输入用户名");
+            return false;
+        }
+        if($("#userpwd").val()==""){
+            $("#prompt").html("请输入密码");
+            return false;
+        }
+        $.get("login",{name:name,pwd:pwd},function (d) {
+        if(d.start==1){
+            localStorage.setItem("user",d)
+            location.href="initindex";
+        }else {
+            $("#prompt").html("用户名或密码错误");
+            return false;
+        }
+        })
+    })
+</script>
+</html>

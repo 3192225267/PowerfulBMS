@@ -1,0 +1,27 @@
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    name: test
+    url: jdbc:mysql://60.12.124.80:3306/test
+    username: lzh
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  messages:
+    basename: i18n.login
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.lzh.pojo
+server:
+  port: 8080
+
+
+
+

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzh.mapper.ProviderMapper" >
+  <resultMap id="BaseResultMap" type="com.lzh.pojo.Provider" >
+    <id column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="provider_code" property="provider_code" jdbcType="VARCHAR" />
+    <result column="provider_name" property="provider_name" jdbcType="VARCHAR" />
+    <result column="people" property="people" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="details" property="details" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pid, provider_code, provider_name, people, phone, address,fax,details
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from provider
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from provider
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lzh.pojo.Provider" >
+    insert into provider (pid, provider_code, provider_name, 
+      people, phone, address, 
+      fax, details)
+    values (#{pid,jdbcType=INTEGER}, #{provider_code,jdbcType=VARCHAR}, #{provider_name,jdbcType=VARCHAR},
+      #{people,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lzh.pojo.Provider" >
+    insert into provider
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="provider_code != null" >
+        provider_code,
+      </if>
+      <if test="provider_name != null" >
+        provider_name,
+      </if>
+      <if test="people != null" >
+        people,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="fax != null" >
+        fax,
+      </if>
+      <if test="details != null" >
+        details
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="provider_code != null" >
+        #{provider_code,jdbcType=VARCHAR},
+      </if>
+      <if test="provider_name != null" >
+        #{provider_name,jdbcType=VARCHAR},
+      </if>
+      <if test="people != null" >
+        #{people,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null" >
+        #{details,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzh.pojo.Provider" >
+    update provider
+    <set >
+      <if test="provider_code != null" >
+        provider_code = #{provider_code,jdbcType=VARCHAR},
+      </if>
+      <if test="provider_name != null" >
+        provider_name = #{provider_name,jdbcType=VARCHAR},
+      </if>
+      <if test="people != null" >
+        people = #{people,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null" >
+        details = #{details,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzh.pojo.Provider" >
+    update provider
+    set provider_code = #{providerCode,jdbcType=VARCHAR},
+      provider_name = #{providerName,jdbcType=VARCHAR},
+      people = #{people,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>

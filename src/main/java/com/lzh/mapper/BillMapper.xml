@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzh.mapper.BillMapper" >
+  <resultMap id="BaseResultMap" type="com.lzh.pojo.Bill" >
+    <id column="bid" property="bid" jdbcType="INTEGER" />
+    <result column="bill_code" property="bill_code" jdbcType="VARCHAR" />
+    <result column="bill_name" property="bill_name" jdbcType="VARCHAR" />
+    <result column="bill_com" property="bill_com" jdbcType="VARCHAR" />
+    <result column="bill_num" property="bill_num" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="pay" property="pay" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+    <result column="content" property="create_date" jdbcType="TIMESTAMP" />
+    <collection property="provider" ofType="com.lzh.pojo.Provider">
+      <id column="pid" property="pid"></id>
+      <result column="provider_code" property="provider_code" jdbcType="VARCHAR" />
+      <result column="provider_name" property="provider_name" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bid, bill_code, bill_name, bill_com, bill_num, money, pay, pid, create_date,content
+  </sql>
+  <sql id="All" >
+    b.bid, b.bill_code, b.bill_name,b.bill_com, b.bill_num, b.money, b.pay, b.pid,b.content,b.create_date,p.pid,p.provider_code,p.provider_name,p.people,p.phone,p.address,p.fax,p.details
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+    <include refid="All" />
+    FROM bill b LEFT JOIN provider p ON b.pid=p.pid
+    where b.bid = #{bid,jdbcType=INTEGER}
+  </select>
+  <select id="fuzzysearch" resultMap="BaseResultMap" parameterType="com.lzh.pojo.BillSearch">
+    SELECT
+    <include refid="All" />
+    FROM bill b LEFT JOIN provider p ON b.pid=p.pid
+    <if test="pid != null" >
+    where b.pid = #{pid,jdbcType=INTEGER}
+    </if>
+    <if test="pay != null" >
+      and b.pay = #{pay,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and b.bill_name LIKE  concat('%',#{name},'%')
+
+    </if>
+  </select>
+    <select id="getpid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        SELECT
+        <include refid="All" />
+    FROM bill b LEFT JOIN provider p ON b.pid=p.pid
+    WHERE b.pid=#{pid,jdbcType=INTEGER}
+    </select>
+
+  <select id="getAll" resultMap="BaseResultMap"  >
+    SELECT
+    <include refid="All" />
+    FROM bill b LEFT JOIN provider p ON b.pid=p.pid
+  </select>
+
+  <select id="getBill" resultType="java.util.HashMap"  parameterType="java.lang.Integer">
+   SELECT
+     SUM(money) as billsum,COUNT(1) as billcount
+    FROM bill
+    WHERE pay= #{pay,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bill
+    where bid = #{bid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lzh.pojo.Bill" >
+    insert into bill (bid, bill_code, bill_name, 
+      bill_com, bill_num, money, 
+      pay, pid, create_date
+      )
+    values (#{bid,jdbcType=INTEGER}, #{billCode,jdbcType=VARCHAR}, #{billName,jdbcType=VARCHAR}, 
+      #{billCom,jdbcType=VARCHAR}, #{billNum,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, 
+      #{pay,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lzh.pojo.Bill" >
+    insert into bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="bill_code != null" >
+        bill_code,
+      </if>
+      <if test="bill_name != null" >
+        bill_name,
+      </if>
+      <if test="bill_com != null" >
+        bill_com,
+      </if>
+      <if test="bill_num != null" >
+        bill_num,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="pay != null" >
+        pay,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="create_date != null" >
+        create_date
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bid != null" >
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="bill_code != null" >
+        #{bill_code,jdbcType=VARCHAR},
+      </if>
+      <if test="bill_name != null" >
+        #{bill_name,jdbcType=VARCHAR},
+      </if>
+      <if test="bill_com != null" >
+        #{bill_com,jdbcType=VARCHAR},
+      </if>
+      <if test="bill_num != null" >
+        #{bill_num,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="pay != null" >
+        #{pay,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="create_date != null" >
+        #{create_date,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzh.pojo.Bill" >
+    update bill
+    <set >
+      <if test="bill_code != null" >
+        bill_code = #{bill_code,jdbcType=VARCHAR},
+      </if>
+      <if test="bill_name != null" >
+        bill_name = #{bill_name,jdbcType=VARCHAR},
+      </if>
+      <if test="bill_com != null" >
+        bill_com = #{bill_com,jdbcType=VARCHAR},
+      </if>
+      <if test="bill_num != null" >
+        bill_num = #{bill_num,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="pay != null" >
+        pay = #{pay,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="create_date != null" >
+        create_date = #{create_date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bid = #{bid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzh.pojo.Bill" >
+    update bill
+    set bill_code = #{bill_code,jdbcType=VARCHAR},
+      bill_name = #{bill_name,jdbcType=VARCHAR},
+      bill_com = #{bill_com,jdbcType=VARCHAR},
+      bill_num = #{bill_num,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      pay = #{pay,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER},
+      create_date = #{create_date,jdbcType=TIMESTAMP}
+    where bid = #{bid,jdbcType=INTEGER}
+  </update>
+</mapper>

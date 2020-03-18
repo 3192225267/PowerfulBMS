@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 修改个人资料</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav th:replace="index::#left_nav1">
+        </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom" th:replace="main/public::#left_nav2">
+            </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>个人信息</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="../index.html">主页</a>
+                        </li>
+                        <li class="active">
+                            <strong>个人信息</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>编辑资料</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <!--<h2>-->
+                                <!--jQuery Validation Plugin - Form validation made easy-->
+                            <!--</h2>-->
+                            <!--<p>-->
+                                <!--The jQuery Validation Plugin provides drop-in validation for your existing forms, while making all kinds of customizations to fit your application really easy.-->
+                            <!--</p>
+
+                                <p class="font-bold">Example form with custom validation on each form control</p>-->
+                                <form role="form" id="form" th:action="'edituser'" th:method="post">
+                                    <input name="_method" value="put" type="hidden">
+                                    <input name="id" th:value="${session.u.getId()}" type="hidden">
+                                    <div class="form-group"><label>账号</label> <input type="text" placeholder="请输入账号" th:value="${session.u.getNumber()}" class="form-control" readonly></div>
+                                    <div class="form-group"><label>邮箱</label> <input type="email" placeholder="请输入邮箱" th:value="${session.u.getEmail()}" class="form-control" name="email"></div>
+                                    <div class="form-group"><label>个性签名</label> <input type="text" placeholder="请输入" th:value="${session.u.getSignature()}" class="form-control" name="signature"></div>
+                                    <div class="form-group"><label>昵称</label> <input type="text" placeholder="请输入昵称" th:value="${session.u.getUsername()}" class="form-control" name="username"></div>
+                                    <div class="form-group"><label>性别</label>
+                                        <select class="form-control m-b" name="gender">
+                                        <option th:value="2" th:selected="${session.u.getGender()==2}">男</option>
+                                        <option th:value="1" th:selected="${session.u.getGender()==1}">女</option>
+                                    </select>
+                                    </div>
+                                    <div class="form-group"><label>生日</label> <input type="text" placeholder="请输入生日" class="form-control" name="birthday"></div>
+                                    <div class="form-group"><label>职位</label> <input type="text" placeholder="请输入职位"  class="form-control" name="user_type"></div>
+
+                                    <div>
+                                        <button class="btn btn-sm btn-primary m-t-n-xs" type="submit"><strong>确定</strong></button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <script src="https://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+    <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+    <script>
+         $(document).ready(function(){
+
+             $("#form").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+        });
+    </script>
+
+</body>
+
+</html>

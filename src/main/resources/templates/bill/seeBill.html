@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 订单详情</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <script type="text/javascript" src="js/vue.min.js" ></script>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+    <nav th:replace="index::#left_nav1">
+    </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav th:replace="index::#left_nav2">
+        </nav>
+        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-sm-4">
+                    <h2>订单详情 </h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="main/index.html">主页</a>
+                        </li>
+                        <li class="active">
+                            订单管理
+                        </li>
+                        <li class="active">
+                            <strong>查看订单详情</strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="wrapper wrapper-content animated fadeInUp">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <div class="m-b-md">
+                                        <a th:href="@{'updbill?id='+${session.bl.bid}}" class="btn btn-white btn-xs pull-right">编辑订单</a>
+                                        <h2 th:text="${session.bl.getBill_name()}"></h2>
+                                    </div>
+                                    <dl class="dl-horizontal">
+                                        <dt>订单编号:</dt> <dd><span class="label label-primary" th:text="${session.bl.getBid()}"></span></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5">
+                                    <dl class="dl-horizontal">
+                                        <dt>订单数量:</dt> <dd th:text="${session.bl.getBill_num()}">  </dd>
+                                        <dt>总金额:</dt> <dd th:text="${session.bl.getMoney()}">  </dd>
+                                        <dt>交易时间:</dt> <dd th:text="${#dates.format(session.bl.getCreate_date(),'yyyy-MM-dd')}"></dd>
+                                        <dt>交易码:</dt> <dd th:text="${session.bl.getBill_code()}"> </dd>
+
+                                    </dl>
+                                </div>
+                                <div class="col-lg-7" id="cluster_info">
+                                    <dl class="dl-horizontal" >
+
+                                        <dt>供应商:</dt> <dd th:text="${session.bl.getProvider().getProvider_name()}"></dd>
+                                        <input type="hidden" id="proid" th:value="${session.bl.getProvider().getPid()}">
+                                        <dt>使用时期单位:</dt> <dd th:text="${session.bl.getBill_com()}"> </dd>
+                                        <dt>是否付款:</dt> <dd><div th:switch="${session.bl.getPay()}">
+                                        <div th:case="0">
+                                            <td  th:text="未付款"></td>
+                                        </div>
+                                        <div th:case="1">
+                                            <td  th:text="已付款"></td>
+                                        </div>
+                                        <div th:case="2">
+                                            <td  th:text="付款中"></td>
+                                        </div>
+                                    </div> </dd>
+                                        <dd class="project-people">
+                                        <a href=""><img alt="image" class="img-circle" src="img/a3.jpg"></a>
+                                        <a href=""><img alt="image" class="img-circle" src="img/a1.jpg"></a>
+                                        <a href=""><img alt="image" class="img-circle" src="img/a2.jpg"></a>
+                                        <a href=""><img alt="image" class="img-circle" src="img/a4.jpg"></a>
+                                        <a href=""><img alt="image" class="img-circle" src="img/a5.jpg"></a>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <!--进度条-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-lg-12">-->
+                                    <!--<dl class="dl-horizontal">-->
+                                        <!--<dt>Completed:</dt>-->
+                                        <!--<dd>-->
+                                            <!--<div class="progress progress-striped active m-b-sm">-->
+                                                <!--<div style="width: 60%;" class="progress-bar"></div>-->
+                                            <!--</div>-->
+                                            <!--<small>Project completed in <strong>60%</strong>. Remaining close the project, sign a contract and invoice.</small>-->
+                                        <!--</dd>-->
+                                    <!--</dl>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="row m-t-sm">
+                                <div class="col-lg-12">
+                                <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs">
+                                            <!--<li class="active"><a href="#tab-1" data-toggle="tab">Users messages</a></li>-->
+                                            <li class=""><a href="#tab-2" data-toggle="tab" onclick="getByProvider()">查看此供货商的其他订单</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+
+                                <div class="tab-content">
+                                <div class="tab-pane active" id="tab-1">
+                                    <!--<div class="feed-activity-list">-->
+                                        <!--<div class="feed-element">-->
+                                            <!--<a href="#" class="pull-left">-->
+                                                <!--<img alt="image" class="img-circle" src="img/a2.jpg">-->
+                                            <!--</a>-->
+                                            <!--<div class="media-body ">-->
+                                                <!--<small class="pull-right">2h ago</small>-->
+                                                <!--<strong>Mark Johnson</strong> posted message on <strong>Monica Smith</strong> site. <br>-->
+                                                <!--<small class="text-muted">Today 2:10 pm - 12.06.2014</small>-->
+                                                <!--<div class="well">-->
+                                                    <!--Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.-->
+                                                    <!--Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="feed-element">-->
+                                            <!--<a href="#" class="pull-left">-->
+                                                <!--<img alt="image" class="img-circle" src="img/a3.jpg">-->
+                                            <!--</a>-->
+                                            <!--<div class="media-body ">-->
+                                                <!--<small class="pull-right">2h ago</small>-->
+                                                <!--<strong>Janet Rosowski</strong> add 1 photo on <strong>Monica Smith</strong>. <br>-->
+                                                <!--<small class="text-muted">2 days ago at 8:30am</small>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="feed-element">-->
+                                            <!--<a href="#" class="pull-left">-->
+                                                <!--<img alt="image" class="img-circle" src="img/a4.jpg">-->
+                                            <!--</a>-->
+                                            <!--<div class="media-body ">-->
+                                                <!--<small class="pull-right text-navy">5h ago</small>-->
+                                                <!--<strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>-->
+                                                <!--<small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>-->
+                                                <!--<div class="actions">-->
+                                                    <!--<a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>-->
+                                                    <!--<a class="btn btn-xs btn-white"><i class="fa fa-heart"></i> Love</a>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                </div>
+                                <div class="tab-pane" id="tab-2" >
+
+                                    <table class="table table-striped" id="providerdata">
+                                        <thead>
+
+                                        <tr>
+                                            <th>订单编码</th>
+                                            <th>订单名称</th>
+                                            <th>订单数量</th>
+                                            <th>订单总金额</th>
+                                            <th>时间</th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        <template v-for="b in bill">
+                                        <tr>
+                                            <td>
+                                                <span class="label label-primary"></i> {{b.bid}}</span>
+                                            </td>
+                                            <td>
+                                             {{b.bill_name}}
+                                            </td>
+                                            <td>
+                                                {{b.bill_num}}
+                                            </td>
+                                            <td>
+                                                {{b.money}}
+                                            </td>
+                                            <td>
+                                            <p class="small">
+                                                {{b.create_date}}
+                                            </p>
+                                            </td>
+
+                                        </tr>
+                                        </template>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                </div>
+
+                                </div>
+
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="javascript:history.back(-1)"><button type="button" class="btn btn-w-m btn-primary" >返回</button></a>
+                </div>
+
+            </div>
+            <div class="col-lg-3">
+                <!--<div class="wrapper wrapper-content project-manager">-->
+                    <!--<h4>Project description</h4>-->
+                    <!--<img src="img/zender_logo.png" class="img-responsive">-->
+                    <!--<p class="small">-->
+                        <!--There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look-->
+                        <!--even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing-->
+                    <!--</p>-->
+                    <!--<p class="small font-bold">-->
+                        <!--<span><i class="fa fa-circle text-warning"></i> High priority</span>-->
+                    <!--</p>-->
+                    <!--<h5>Project tag</h5>-->
+                    <!--<ul class="tag-list" style="padding: 0">-->
+                        <!--<li><a href=""><i class="fa fa-tag"></i> Zender</a></li>-->
+                        <!--<li><a href=""><i class="fa fa-tag"></i> Lorem ipsum</a></li>-->
+                        <!--<li><a href=""><i class="fa fa-tag"></i> Passages</a></li>-->
+                        <!--<li><a href=""><i class="fa fa-tag"></i> Variations</a></li>-->
+                    <!--</ul>-->
+                    <!--<h5>Project files</h5>-->
+                    <!--<ul class="list-unstyled project-files">-->
+                        <!--<li><a href=""><i class="fa fa-file"></i> Project_document.docx</a></li>-->
+                        <!--<li><a href=""><i class="fa fa-file-picture-o"></i> Logo_zender_company.jpg</a></li>-->
+                        <!--<li><a href=""><i class="fa fa-stack-exchange"></i> Email_from_Alex.mln</a></li>-->
+                        <!--<li><a href=""><i class="fa fa-file"></i> Contract_20_11_2014.docx</a></li>-->
+                    <!--</ul>-->
+                    <!--<div class="text-center m-t-md">-->
+                        <!--<a href="#" class="btn btn-xs btn-primary">Add files</a>-->
+                        <!--<a href="#" class="btn btn-xs btn-primary">Report contact</a>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $('#loading-example-btn').click(function () {
+                btn = $(this);
+                simpleLoad(btn, true)
+
+                // Ajax example
+//                $.ajax().always(function () {
+//                    simpleLoad($(this), false)
+//                });
+
+                simpleLoad(btn, false)
+            });
+        });
+
+        function simpleLoad(btn, state) {
+            if (state) {
+                btn.children().addClass('fa-spin');
+                btn.contents().last().replaceWith(" Loading");
+            } else {
+                setTimeout(function () {
+                    btn.children().removeClass('fa-spin');
+                    btn.contents().last().replaceWith(" Refresh");
+                }, 2000);
+            }
+        }
+        function getByProvider() {
+            var pid=$("#proid").val();
+            $.getJSON("getBypd",{pid:pid},function (d) {
+            new Vue({
+                el:"#providerdata",
+                data:{
+                   bill:d
+                }
+            })
+            })
+        }
+    </script>
+</body>
+
+</html>

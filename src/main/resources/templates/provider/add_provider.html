@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 添加供应商</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!--提示弹框样式-->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <link href="css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+    <nav th:replace="index::#left_nav1">
+    </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav th:replace="index::#left_nav2">
+
+        </nav>
+        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>添加合作企业</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="main/index.html">主页</a>
+                        </li>
+                        <li>
+                            <a>合作企业管理</a>
+                        </li>
+                        <li class="active">
+                            <strong>新增合作企业</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>添加新的合作企业</h5>
+                        </div>
+                        <div class="ibox-content screen-window">
+                            <!--<h2>-->
+                                <!--jQuery Validation Plugin - Form validation made easy-->
+                            <!--</h2>-->
+                            <!--<p>-->
+                                <!--The jQuery Validation Plugin provides drop-in validation for your existing forms, while making all kinds of customizations to fit your application really easy.-->
+                            <!--</p>
+
+                                <p class="font-bold">Example form with custom validation on each form control</p>-->
+                                <form role="form" id="frm1"  >
+                                    <input  type="hidden" name="_method" value="PUT">
+                                    <div class="form-group"><label>合作企业名称</label> <input  type="text" placeholder="输入合作企业名称" class="form-control verification" id="pro_name" name="provider_name">
+                                        <span id="prompt_name"></span>
+                                    </div>
+                                    <div class="form-group"><label>企业地址</label> <input  type="text" placeholder="输入企业地址" class="form-control verification" id="pro_add" name="address">
+                                        <span id="prompt_add"></span>
+                                    </div>
+                                    <div class="form-group"><label>企业负责人名称</label> <input type="text" placeholder="输入负责人名称" class="form-control verification" id="pro_people" name="people">
+                                        <span id="prompt_people"></span>
+                                    </div>
+                                    <div class="form-group"><label>负责人电话</label> <input  type="text" placeholder="输入负责人电话" class="form-control verification" id="pro_phone" name="phone">
+                                        <span id="prompt_phone"></span>
+                                    </div>
+                                    <div class="form-group"><label>企业传真</label> <input  type="text" placeholder="输入传真" class="form-control verification" id="pro_fax" name="fax">
+                                        <span id="prompt_fax"></span>
+                                    </div>
+                                    <!--<div class="row">-->
+                                        <!--<div class="col-lg-12">-->
+                                            <!--<div class="ibox float-e-margins">-->
+                                                <!--<div class="ibox-title">-->
+                                                    <!--<h5>合作企业详细信息</h5>-->
+                                                    <!--<div class="ibox-tools">-->
+                                                        <!--<a class="collapse-link">-->
+                                                            <!--<i class="fa fa-chevron-up"></i>-->
+                                                        <!--</a>-->
+
+
+
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="ibox-content no-padding">-->
+
+                                                    <!--<div class="summernote" id="details">-->
+
+                                                    <!--</div>-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <div>
+                                        <button class="btn btn-sm btn-primary m-t-n-xs" type="button" id="sbt"><strong>添加</strong></button>
+                                        <a href="javascript:history.back(-1)"><button class="btn btn-sm btn-primary m-t-n-xs" type="button"><strong>返回</strong></button></a>
+                                    </div>
+
+                                </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <script src="https://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+    <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+
+    <!-- EayPIE -->
+    <script src="js/plugins/easypiechart/jquery.easypiechart.js"></script>
+
+    <!-- Sparkline -->
+    <script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="js/demo/sparkline-demo.js"></script>
+
+    <!-- Toastr -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <!-- SUMMERNOTE -->
+    <script src="js/plugins/summernote/summernote.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $('.summernote').summernote();
+
+        });
+        var edit = function() {
+            $('.click2edit').summernote({focus: true});
+        };
+        var save = function() {
+            var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+            $('.click2edit').destroy();
+        };
+    </script>
+    <script>
+
+         $("#sbt").click(function () {
+
+             if($("#pro_name").val()==""){
+                 $("#provider").css("border","1px solid red")
+                 $("#prompt_name").html("请填写合作企业");
+                 $("#prompt_name").css("color","red");
+                 return false;
+             }
+             if($("#pro_add").val()==""){
+                 $("#prompt_add").html("请填写合作企业地址");
+                 $("#prompt_add").css("color","red");
+                 return false;
+             }
+             if($("#pro_people").val()==""){
+                 $("#prompt_people").html("请填写合作企业负责人");
+                 $("#prompt_people").css("color","red");
+                 return false;
+             }
+             if($("#pro_phone").val()==""){
+                 $("#prompt_phone").html("请填写企业负责人电话");
+                 $("#prompt_phone").css("color","red");
+                 return false;
+             }
+             if($("#pro_fax").val()==""){
+                 $("#prompt_fax").html("请填写企业传真");
+                 $("#prompt_fax").css("color","red");
+                 return false;
+             }
+
+             $.ajax({
+                 url:"add_provide",//提交地址
+                 data:$("#frm1").serialize(),//将表单数据序列化
+                 type:"POST",
+                 dataType:"json",
+                 success:function(result){
+                     if (result==1){
+                         setTimeout(function() {
+                             toastr.options = {
+                                 closeButton: true,
+                                 progressBar: true,
+                                 showMethod: 'slideDown',
+                                 timeOut: 4000
+                             };
+                             toastr.success('添加成功');
+                         }, 1300);
+                         $(".screen-window form input").each(function(){
+                             $(this).val('');
+                         });
+                         $(".screen-window form select").each(function(){
+                             $(this).val('');
+                         });
+                     }else{
+                         alert("失败！");
+                     }
+                 }
+             });
+
+         })
+
+
+    </script>
+
+</body>
+
+</html>

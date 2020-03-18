@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 修改订单</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+    <nav th:replace="index::#left_nav1">
+    </nav>
+
+        <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+        <nav th:replace="index::#left_nav2">
+
+        </nav>
+        </div>
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>编辑订单</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="main/index.html">主页</a>
+                        </li>
+                        <li>
+                            <a>账单管理</a>
+                        </li>
+                        <li class="active">
+                            <strong>编辑订单</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>订单信息</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <!--<h2>-->
+                                <!--jQuery Validation Plugin - Form validation made easy-->
+                            <!--</h2>-->
+                            <!--<p>-->
+                                <!--The jQuery Validation Plugin provides drop-in validation for your existing forms, while making all kinds of customizations to fit your application really easy.-->
+                            <!--</p>
+
+                                <p class="font-bold">Example form with custom validation on each form control</p>-->
+                                <form role="form" id="frm1" action="modifybill">
+                                    <div class="form-group"><label>账单编码</label> <input th:value="${session.bl.getBid()}" type="text" placeholder="输入账单编码" class="form-control" name="bid" readonly></div>
+                                    <div class="form-group"><label>供应商</label> <select class="select2_demo_1 form-control" name="pid">
+                                        <option th:if="${pl.pid eq session.bl.getPid()}" th:selected="selected" value="1" th:value="${pl.pid}" th:each="pl:${session.pl}" th:text="${pl.provider_name}">Option 1</option>
+                                        <option  th:value="${pl.pid}" th:each="pl:${session.pl}" th:text="${pl.provider_name}">Option 1</option>
+                                    </select></div>
+                                    <div class="form-group"><label>商品名称</label> <input th:value="${session.bl.getBill_name()}" type="text" placeholder="输入商品名称" class="form-control" name="bill_name"></div>
+                                    <div class="form-group"><label>订单数</label> <input th:value="${session.bl.getBill_num()}" type="text" placeholder="输入订单数" class="form-control" name="bill_num"></div>
+                                    <div class="form-group"><label>总金额</label> <input th:value="${session.bl.getMoney()}" type="text" placeholder="输入总金额" class="form-control" name="money"></div>
+                                    <div class="form-group"><label>是否付款</label>
+                                        <select class="select2_demo_1 form-control" name="pay">
+                                            <div th:switch="${session.bl.getPay()}">
+                                                <div th:case="0">
+                                            <option  value="1" >已付款</option>
+                                                </div>
+                                                <div th:case="1">
+                                                    <option  value="0" >未付款</option>
+                                                    <option  value="1" th:selected="selected">已付款</option>
+                                                    <option  value="2" >付款中</option>
+                                                </div>
+                                                <div th:case="2">
+                                                    <option  value="0" >未付款</option>
+                                                    <option  value="1" >已付款</option>
+                                                    <option  value="2" th:selected="selected">付款中</option>
+                                                </div>
+                                            </div>
+                                            <option th:value="${session.bl.getPay()}" th:if="${session.bl.getPay() eq 0}" th:selected="selected">未付款</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group"><label>使用时期单位:</label>
+                                        <select class="select2_demo_1 form-control" name="bill_com">
+                                            <option th:value="年" th:if="${session.bl.getBill_com() eq '年'}">年</option>
+                                            <option th:value="月" th:if="${session.bl.getBill_com() eq '月'}">月</option>
+                                        </select>
+                                        </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary m-t-n-xs" type="submit"><strong>更新</strong></button>
+                                        <a href="javascript:history.back(-1)"><button class="btn btn-sm btn-primary m-t-n-xs" type="button"><strong>返回</strong></button></a>
+
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="pull-right">
+                10GB of <strong>250GB</strong> Free.
+            </div>
+            <div>
+                <strong>Copyright</strong> Example Company &copy; 2014-2015
+            </div>
+        </div>
+
+        </div>
+        </div>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <script src="https://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+    <!-- Jquery Validate -->
+    <script src="js/plugins/validate/jquery.validate.min.js"></script>
+
+    <script>
+         $(document).ready(function(){
+
+             $("#form").validate({
+                 rules: {
+                     password: {
+                         required: true,
+                         minlength: 3
+                     },
+                     url: {
+                         required: true,
+                         url: true
+                     },
+                     number: {
+                         required: true,
+                         number: true
+                     },
+                     min: {
+                         required: true,
+                         minlength: 6
+                     },
+                     max: {
+                         required: true,
+                         maxlength: 4
+                     }
+                 }
+             });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Powerful | 锁屏</title>
+
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.6.0.css">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+<div class="lock-word animated fadeInDown">
+    <span class="first-word">LOCKED</span><span>SCREEN</span>
+</div>
+    <div class="middle-box text-center lockscreen animated fadeInDown">
+        <div>
+            <div class="m-b-md">
+            <!--<img alt="image" class="img-circle circle-border" src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg">-->
+                <img alt="image" width="150px" height="150px" class="img-circle circle-border" th:src="${session.u.getAvatar()}">
+            </div>
+            <h3 th:text="${session.u.getUsername()}"></h3>
+            <p th:text="${session.u.getSignature()}"></p>
+            <form class="m-t" role="form" action="unlock">
+                <div class="form-group">
+                    <input type="password" id="lockpwd" name="password" class="form-control" placeholder="******" required="">
+                </div>
+                <button type="button" th:id="locakbtn" class="btn btn-primary block full-width">解锁</button>
+            </form>
+            <span id="start" style="color:red"></span>
+        </div>
+    </div>
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+<script>
+
+    $("#locakbtn").click(function () {
+        var password=$("#lockpwd").val();
+        if($("#lockpwd").val()==""){
+            $("#start").html("请输入密码！")
+            return false;
+        }
+        $.post("unlock",{password:password},function (d) {
+
+            if(d==0){
+            window.location="javascript:history.go(-1);";
+            }else{
+                $("#start").html("密码有误！")
+
+            }
+        })
+    })
+
+</script>
+</html>
